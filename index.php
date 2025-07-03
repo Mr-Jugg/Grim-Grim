@@ -11,7 +11,6 @@
   );
 
   $carouselJson = json_encode(array_values($carouselImages));
-
 ?>
 
 <!DOCTYPE html>
@@ -161,7 +160,7 @@
 
 
     // 1) List your image paths here:
-    const imageList = <?= $carouselImages ?>;
+    const imageList = <?= $carouselJson ?>;
 
     // 2) Build carousel slides (3 images per slide)
     const chunkSize = 3;
