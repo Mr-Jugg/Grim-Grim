@@ -1,9 +1,17 @@
+<?php
+$furOrangeHex = "#c55816";
+
+$carouselImages = json_encode(scandir(__DIR__ . "/Carousel-Images"));
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>My Cat’s Profile</title>
+  <title>Grim Grim's Website</title>
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -13,14 +21,14 @@
 
   <style>
     body {
-      background-color: #fff8f0;
+      background-color: <?= $furOrangeHex ?>;
       color: #333;
     }
     .profile-header img {
       width: 160px;
       height: 160px;
       object-fit: cover;
-      border: 4px solid #f5c6aa;
+      border: 4px solid <?= $furOrangeHex ?>;
     }
     .gallery-img {
       cursor: pointer;
@@ -80,50 +88,38 @@
           </div>
         </div>
 
-        <!-- Gallery -->
-        <h5 class="mb-3">Gallery</h5>
-        <div class="row g-2" id="gallery">
-          <!-- Example thumbnails -->
-          <div class="col-6 col-sm-4 col-md-3">
-            <img
-              src="https://placekitten.com/201/200"
-              class="img-fluid rounded gallery-img"
-              alt="Kitten pic 1"
-              data-bs-toggle="modal"
-              data-bs-target="#lightboxModal"
-            />
-          </div>
-          <div class="col-6 col-sm-4 col-md-3">
-            <img
-              src="https://placekitten.com/202/200"
-              class="img-fluid rounded gallery-img"
-              alt="Kitten pic 2"
-              data-bs-toggle="modal"
-              data-bs-target="#lightboxModal"
-            />
-          </div>
-          <div class="col-6 col-sm-4 col-md-3">
-            <img
-              src="https://placekitten.com/200/201"
-              class="img-fluid rounded gallery-img"
-              alt="Kitten pic 3"
-              data-bs-toggle="modal"
-              data-bs-target="#lightboxModal"
-            />
-          </div>
-          <div class="col-6 col-sm-4 col-md-3">
-            <img
-              src="https://placekitten.com/199/200"
-              class="img-fluid rounded gallery-img"
-              alt="Kitten pic 4"
-              data-bs-toggle="modal"
-              data-bs-target="#lightboxModal"
-            />
+        <div class="container">
+          <h2 class="mb-4">You want more pictures of our boy</h2>
+
+          <div id="catCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" id="carouselInner">
+              <!-- JS will inject .carousel-item blocks here -->
+            </div>
+
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#catCarousel"
+              data-bs-slide="prev"
+            >
+              <span class="carousel-control-prev-icon"></span>
+              <span class="visually-hidden">Prev</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#catCarousel"
+              data-bs-slide="next"
+            >
+              <span class="carousel-control-next-icon"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+
+        <!-- Bootstrap JS Bundle (Includes Popper) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
   <!-- Lightbox Modal -->
   <div
@@ -157,8 +153,54 @@
       img.addEventListener('click', e => {
         const src = e.currentTarget.src
         document.getElementById('lightbox-img').src = src
-      })
-    })
+      });
+    });
+
+
+    // 1) List your image paths here:
+    const imageList = JSON.parse(<?= $carouselImages ?>);
+
+    // 2) Build carousel slides (3 images per slide)
+    const chunkSize = 3;
+    const carouselInner = document.getElementById('carouselInner');
+
+    for (let i = 0; i < imageList.length; i += chunkSize) {
+      // take a slice of up to 3 images
+      const chunk = imageList.slice(i, i + chunkSize);
+
+      // create carousel-item div
+      const itemDiv = document.createElement('div');
+      itemDiv.classList.add('carousel-item');
+      if (i === 0) itemDiv.classList.add('active'); // first slide active
+
+      // create a row to hold 3 columns
+      const row = document.createElement('div');
+      row.classList.add('row', 'g-2', 'justify-content-center');
+
+      // for each image in the chunk, create a column
+      chunk.forEach(src => {
+        const col = document.createElement('div');
+        col.classList.add('col-12', 'col-md-4');
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Another picture of Grim Grim';
+        img.classList.add('d-block', 'w-100');
+
+        col.appendChild(img);
+        row.appendChild(col);
+      });
+
+      itemDiv.appendChild(row);
+      carouselInner.appendChild(itemDiv);
+    }
+
+    // 3) Optional: start auto-slide every 3 seconds
+    const carousel = new bootstrap.Carousel('#catCarousel', {
+      interval: 3000,
+      ride: 'carousel'
+    });
+
   </script>
 </body>
 </html>
