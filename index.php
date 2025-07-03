@@ -1,8 +1,6 @@
 <?php
-  // colour constant
   $furOrangeHex = "#c55816";
 
-  // get images for carousel
   $files = array_diff(scandir(__DIR__ . "/Carousel-Images"), ['.', '..']);
 
   $carouselImages = array_map(
@@ -12,13 +10,12 @@
 
   $carouselJson = json_encode(array_values($carouselImages));
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Grim Grim's Website</title>
+  <title>Grim Grim’s Website</title>
 
   <!-- Bootstrap 5 CSS -->
   <link
@@ -60,7 +57,7 @@
             class="rounded-circle mb-3"
           />
           <h1 id="cat-name" class="h3">Grim Grim</h1>
-          <p class="text-muted">“Grimothy, Creature, Chicken... A cat of many names”</p>
+          <p class="text-muted">“Grimothy, Creature, Chicken… A cat of many names”</p>
         </div>
 
         <!-- Info Grid -->
@@ -95,9 +92,9 @@
           </div>
         </div>
 
+        <!-- Carousel Section -->
         <div class="container">
           <h2 class="mb-4">You want more pictures of our boy</h2>
-
           <div id="catCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner" id="carouselInner">
               <!-- JS will inject .carousel-item blocks here -->
@@ -123,10 +120,9 @@
             </button>
           </div>
         </div>
-
-        <!-- Bootstrap JS Bundle (Includes Popper) -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+      </div>
+    </div>
+  </div>
 
   <!-- Lightbox Modal -->
   <div
@@ -149,45 +145,40 @@
     </div>
   </div>
 
+  <!-- Bootstrap JS (with Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
-    // When any gallery-image is clicked, swap its src into the modal img
-    document.querySelectorAll('.gallery-img').forEach(img => {
-      img.addEventListener('click', e => {
-        const src = e.currentTarget.src
-        document.getElementById('lightbox-img').src = src
-      });
-    });
-
-
-    // 1) List your image paths here:
+    // 1) Grab the JSON-encoded PHP array:
     const imageList = <?= $carouselJson ?>;
 
     // 2) Build carousel slides (3 images per slide)
-    const chunkSize = 3;
     const carouselInner = document.getElementById('carouselInner');
+    const chunkSize = 3;
 
     for (let i = 0; i < imageList.length; i += chunkSize) {
-      // take a slice of up to 3 images
-      const chunk = imageList.slice(i, i + chunkSize);
-
-      // create carousel-item div
+      const chunk   = imageList.slice(i, i + chunkSize);
       const itemDiv = document.createElement('div');
       itemDiv.classList.add('carousel-item');
-      if (i === 0) itemDiv.classList.add('active'); // first slide active
+      if (i === 0) itemDiv.classList.add('active');
 
-      // create a row to hold 3 columns
       const row = document.createElement('div');
       row.classList.add('row', 'g-2', 'justify-content-center');
 
-      // for each image in the chunk, create a column
       chunk.forEach(src => {
         const col = document.createElement('div');
         col.classList.add('col-12', 'col-md-4');
 
         const img = document.createElement('img');
-        img.src = src;
-        img.alt = 'Another picture of Grim Grim';
-        img.classList.add('d-block', 'w-100');
+        img.src   = src;
+        img.alt   = 'Another picture of Grim Grim';
+        img.classList.add('d-block', 'w-100', 'gallery-img');
+
+        // attach lightbox click handler:
+        img.addEventListener('click', () => {
+          document.getElementById('lightbox-img').src = src;
+          new bootstrap.Modal(document.getElementById('lightboxModal')).show();
+        });
 
         col.appendChild(img);
         row.appendChild(col);
@@ -197,12 +188,11 @@
       carouselInner.appendChild(itemDiv);
     }
 
-    // 3) Optional: start auto-slide every 3 seconds
-    const carousel = new bootstrap.Carousel('#catCarousel', {
+    // 3) Start auto‐sliding every 3 seconds:
+    new bootstrap.Carousel('#catCarousel', {
       interval: 3000,
       ride: 'carousel'
     });
-
   </script>
 </body>
 </html>
