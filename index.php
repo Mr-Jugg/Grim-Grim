@@ -1,10 +1,16 @@
 <?php
-$furOrangeHex = "#c55816";
+  // colour constant
+  $furOrangeHex = "#c55816";
 
-$carouselImages = scandir(__DIR__ . "/Carousel-Images");
-foreach($carouselImages as $index => $image) {
-  $carouselImages[$index] = '/Carousel-Images/' . $image;
-}
+  // get images for carousel
+  $files = array_diff(scandir(__DIR__ . "/Carousel-Images"), ['.', '..']);
+
+  $carouselImages = array_map(
+    fn($f) => '/Carousel-Images/' . $f,
+    $files
+  );
+
+  $carouselJson = json_encode(array_values($carouselImages));
 
 ?>
 
