@@ -1,8 +1,10 @@
 <?php
 $furOrangeHex = "#c55816";
 
-$carouselImages = json_encode(scandir(__DIR__ . "/Carousel-Images"));
-
+$carouselImages = scandir(__DIR__ . "/Carousel-Images");
+foreach($carouselImages as $index => $image) {
+  $carouselImages[$index] = '/Carousel-Images/' . $image;
+}
 
 ?>
 
@@ -142,11 +144,6 @@ $carouselImages = json_encode(scandir(__DIR__ . "/Carousel-Images"));
     </div>
   </div>
 
-  <!-- Bootstrap 5 JS Bundle (includes Popper) -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-  ></script>
-
   <script>
     // When any gallery-image is clicked, swap its src into the modal img
     document.querySelectorAll('.gallery-img').forEach(img => {
@@ -158,7 +155,7 @@ $carouselImages = json_encode(scandir(__DIR__ . "/Carousel-Images"));
 
 
     // 1) List your image paths here:
-    const imageList = JSON.parse(<?= $carouselImages ?>);
+    const imageList = <?= $carouselImages ?>;
 
     // 2) Build carousel slides (3 images per slide)
     const chunkSize = 3;
