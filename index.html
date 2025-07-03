@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>My Cat’s Profile</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      background-color: #fff8f0;
+      color: #333;
+    }
+    .profile-header img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border: 4px solid #f5c6aa;
+    }
+    .gallery-img {
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .gallery-img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-5">
+    <!-- Profile Card -->
+    <div class="card mx-auto shadow-sm" style="max-width: 800px;">
+      <div class="card-body">
+        <!-- Header -->
+        <div class="d-flex flex-column align-items-center text-center profile-header mb-4">
+          <img
+            src="/Images/Based-Boy.png"
+            alt="Grim Grim Portrait"
+            class="rounded-circle mb-3"
+          />
+          <h1 id="cat-name" class="h3">Grim Grim</h1>
+          <p class="text-muted">“Grimothy, Creature, Chicken... A cat of many names”</p>
+        </div>
+
+        <!-- Info Grid -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="border rounded p-3 h-100 bg-light">
+              <h6 class="text-secondary">Home Address</h6>
+              <p id="cat-address" class="small mb-0">
+                123 Meow Lane<br/>Catville, PA 12345
+              </p>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="border rounded p-3 h-100 bg-light">
+              <h6 class="text-secondary">Contact</h6>
+              <p id="cat-contact" class="small mb-0">
+                (555) 123-CAT1<br/>meow@example.com
+              </p>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="border rounded p-3 h-100 bg-light">
+              <h6 class="text-secondary">Favorite Toy</h6>
+              <p id="cat-toy" class="small mb-0">Feather Wand</p>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="border rounded p-3 h-100 bg-light">
+              <h6 class="text-secondary">Birthday</h6>
+              <p id="cat-bday" class="small mb-0">2011</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gallery -->
+        <h5 class="mb-3">Gallery</h5>
+        <div class="row g-2" id="gallery">
+          <!-- Example thumbnails -->
+          <div class="col-6 col-sm-4 col-md-3">
+            <img
+              src="https://placekitten.com/201/200"
+              class="img-fluid rounded gallery-img"
+              alt="Kitten pic 1"
+              data-bs-toggle="modal"
+              data-bs-target="#lightboxModal"
+            />
+          </div>
+          <div class="col-6 col-sm-4 col-md-3">
+            <img
+              src="https://placekitten.com/202/200"
+              class="img-fluid rounded gallery-img"
+              alt="Kitten pic 2"
+              data-bs-toggle="modal"
+              data-bs-target="#lightboxModal"
+            />
+          </div>
+          <div class="col-6 col-sm-4 col-md-3">
+            <img
+              src="https://placekitten.com/200/201"
+              class="img-fluid rounded gallery-img"
+              alt="Kitten pic 3"
+              data-bs-toggle="modal"
+              data-bs-target="#lightboxModal"
+            />
+          </div>
+          <div class="col-6 col-sm-4 col-md-3">
+            <img
+              src="https://placekitten.com/199/200"
+              class="img-fluid rounded gallery-img"
+              alt="Kitten pic 4"
+              data-bs-toggle="modal"
+              data-bs-target="#lightboxModal"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div
+    class="modal fade"
+    id="lightboxModal"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0">
+        <div class="modal-body p-0">
+          <img
+            src=""
+            id="lightbox-img"
+            class="w-100 rounded"
+            alt="Enlarged Photo"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+  <script>
+    // When any gallery-image is clicked, swap its src into the modal img
+    document.querySelectorAll('.gallery-img').forEach(img => {
+      img.addEventListener('click', e => {
+        const src = e.currentTarget.src
+        document.getElementById('lightbox-img').src = src
+      })
+    })
+  </script>
+</body>
+</html>
